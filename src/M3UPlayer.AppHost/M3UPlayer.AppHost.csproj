@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <IsAspireHost>true</IsAspireHost>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting" Version="8.0.0" />
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.0" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="../M3UPlayer.ServiceDefaults/M3UPlayer.ServiceDefaults.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="../M3UPlayer.Api/M3UPlayer.Api.csproj" />
   </ItemGroup>
 </Project>
