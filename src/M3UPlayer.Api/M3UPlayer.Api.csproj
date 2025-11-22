@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../M3UPlayer.Core/M3UPlayer.Core.csproj" />
+    <ProjectReference Include="../M3UPlayer.ServiceDefaults/M3UPlayer.ServiceDefaults.csproj" />
+  </ItemGroup>
+</Project>
