@@ -1,0 +1,6 @@
+@M3UPlayer.Api_HostAddress = http://localhost:5139
+
+GET {{M3UPlayer.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

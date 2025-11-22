@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{486A5DA5-EF03-41D4-AAD6-2D14859C8C14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M3UPlayer.AppHost", "src\M3UPlayer.AppHost\M3UPlayer.AppHost.csproj", "{9A53BFB8-A2A7-4BDB-A5EA-CF29DCC2EB78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M3UPlayer.ServiceDefaults", "src\M3UPlayer.ServiceDefaults\M3UPlayer.ServiceDefaults.csproj", "{328E1656-04B1-49BE-861E-5992D4CF2000}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M3UPlayer.Api", "src\M3UPlayer.Api\M3UPlayer.Api.csproj", "{A3C79312-D35D-4687-8CEA-75BF8B6C92EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M3UPlayer.Core", "src\M3UPlayer.Core\M3UPlayer.Core.csproj", "{B12D7667-AF9B-436D-9592-65DB5A5D2F34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AA98A780-3A89-4FFD-9420-0BEEC09C8881}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M3UPlayer.Core.Tests", "tests\M3UPlayer.Core.Tests\M3UPlayer.Core.Tests.csproj", "{195F3411-2107-4239-BEDA-7BC9C69FACB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A53BFB8-A2A7-4BDB-A5EA-CF29DCC2EB78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A53BFB8-A2A7-4BDB-A5EA-CF29DCC2EB78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A53BFB8-A2A7-4BDB-A5EA-CF29DCC2EB78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A53BFB8-A2A7-4BDB-A5EA-CF29DCC2EB78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{328E1656-04B1-49BE-861E-5992D4CF2000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{328E1656-04B1-49BE-861E-5992D4CF2000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{328E1656-04B1-49BE-861E-5992D4CF2000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{328E1656-04B1-49BE-861E-5992D4CF2000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3C79312-D35D-4687-8CEA-75BF8B6C92EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3C79312-D35D-4687-8CEA-75BF8B6C92EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3C79312-D35D-4687-8CEA-75BF8B6C92EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3C79312-D35D-4687-8CEA-75BF8B6C92EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B12D7667-AF9B-436D-9592-65DB5A5D2F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12D7667-AF9B-436D-9592-65DB5A5D2F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12D7667-AF9B-436D-9592-65DB5A5D2F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12D7667-AF9B-436D-9592-65DB5A5D2F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{195F3411-2107-4239-BEDA-7BC9C69FACB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{195F3411-2107-4239-BEDA-7BC9C69FACB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{195F3411-2107-4239-BEDA-7BC9C69FACB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{195F3411-2107-4239-BEDA-7BC9C69FACB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9A53BFB8-A2A7-4BDB-A5EA-CF29DCC2EB78} = {486A5DA5-EF03-41D4-AAD6-2D14859C8C14}
+		{328E1656-04B1-49BE-861E-5992D4CF2000} = {486A5DA5-EF03-41D4-AAD6-2D14859C8C14}
+		{A3C79312-D35D-4687-8CEA-75BF8B6C92EB} = {486A5DA5-EF03-41D4-AAD6-2D14859C8C14}
+		{B12D7667-AF9B-436D-9592-65DB5A5D2F34} = {486A5DA5-EF03-41D4-AAD6-2D14859C8C14}
+		{195F3411-2107-4239-BEDA-7BC9C69FACB1} = {AA98A780-3A89-4FFD-9420-0BEEC09C8881}
+	EndGlobalSection
+EndGlobal
