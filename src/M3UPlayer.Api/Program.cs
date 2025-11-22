@@ -53,7 +53,7 @@ api.MapPost("/playlists/from-file", async Task<IResult> (
 
     var response = BuildPlaylistSummaryResponse(playlistId, parsed);
     return Results.Ok(response);
-});
+}).DisableAntiforgery();
 
 api.MapPost("/playlists/from-url", async Task<IResult> (
     PlaylistFromUrlRequest request,
@@ -85,7 +85,7 @@ api.MapPost("/playlists/from-url", async Task<IResult> (
 
     var payload = BuildPlaylistSummaryResponse(playlistId, parsed);
     return Results.Ok(payload);
-});
+}).DisableAntiforgery();
 
 api.MapGet("/playlists/{playlistId}/countries", async Task<IResult> (
     string playlistId,
@@ -118,6 +118,35 @@ api.MapGet("/playlists/{playlistId}/countries/{code}/channels", async Task<IResu
     return Results.Ok(channels);
 });
 
+api.MapGet("/playlists/{playlistId}/vod", async Task<IResult> (
+    string playlistId,
+    IPlaylistStore store,
+    CancellationToken ct) =>
+{
+    var playlist = await store.GetAsync(playlistId, ct);
+    if (playlist is null)
+    {
+        return Results.NotFound();
+    }
+
+    // La VOD est renvoyée telle quelle (liste plate) pour simplifier le front;
+    // seuls les contenus Movie ou Series sont exposés ici.
+    var vodItems = playlist.Tracks
+        .Where(track => track is not null &&
+                        (track.MediaType == MediaType.Movie || track.MediaType == MediaType.Series))
+        .Select(track => new ChannelDto(
+            track.Id,
+            track.Name,
+            track.CountryCode,
+            track.LanguageCode,
+            track.LogoUrl,
+            track.StreamUrl,
+            track.MediaType.ToString()))
+        .ToList();
+
+    return Results.Ok(vodItems);
+});
+
 app.Run();
 
 static PlaylistSummaryResponse BuildPlaylistSummaryResponse(string playlistId, ParsedPlaylist playlist)
@@ -128,16 +157,14 @@ static PlaylistSummaryResponse BuildPlaylistSummaryResponse(string playlistId, P
 
 static IReadOnlyList<CountrySummaryDto> BuildCountrySummaries(ParsedPlaylist playlist)
 {
-    var liveTracks = playlist.Tracks
-        .Where(track => track is not null && track.MediaType == MediaType.LiveChannel)
-        .ToList();
+    // Les pays exposés au front principal sont calculés uniquement à partir des chaînes live
+    // pour fournir un premier rendu rapide; les films/séries sont servis via l'endpoint VOD.
+    var grouped = ChannelGroupingService.GroupByCountry(playlist, MediaType.LiveChannel);
 
-    if (liveTracks.Count == 0)
+    if (grouped.Count == 0)
     {
         return Array.Empty<CountrySummaryDto>();
     }
-
-    var grouped = ChannelGroupingService.GroupByCountry(new ParsedPlaylist(playlist.PlaylistId, liveTracks));
 
     return grouped
         .Select(group => new CountrySummaryDto(
@@ -165,16 +192,16 @@ static IReadOnlyList<ChannelDto> BuildChannelsForCountry(ParsedPlaylist playlist
         ? ChannelGroupingService.UnspecifiedKey
         : code;
 
-    return playlist.Tracks
-        .Where(track => track is not null && track.MediaType == MediaType.LiveChannel)
-        .Where(track =>
-        {
-            // On filtre par code pays pour rester cohérent avec le regroupement principal.
-            var country = string.IsNullOrWhiteSpace(track.CountryCode)
-                ? ChannelGroupingService.UnspecifiedKey
-                : track.CountryCode;
-            return string.Equals(country, normalizedCode, StringComparison.OrdinalIgnoreCase);
-        })
+    // On réutilise le regroupement Live pour garantir la même logique que /countries.
+    var group = ChannelGroupingService.GroupByCountry(playlist, MediaType.LiveChannel)
+        .FirstOrDefault(g => string.Equals(g.Key, normalizedCode, StringComparison.OrdinalIgnoreCase));
+
+    if (group is null)
+    {
+        return Array.Empty<ChannelDto>();
+    }
+
+    return group.Tracks
         .Select(track => new ChannelDto(
             track.Id,
             track.Name,
@@ -185,3 +212,9 @@ static IReadOnlyList<ChannelDto> BuildChannelsForCountry(ParsedPlaylist playlist
             track.MediaType.ToString()))
         .ToList();
 }
+
+// Rendu public pour permettre aux tests d'héberger l'application via WebApplicationFactory.
+/// <summary>
+/// Point d'entrée exposé pour l'hébergement de l'API en intégration.
+/// </summary>
+public partial class Program { }

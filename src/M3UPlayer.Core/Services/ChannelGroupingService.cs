@@ -19,23 +19,28 @@ public static class ChannelGroupingService
     /// Regroupe les pistes par code pays (ISO 3166-1 alpha-2 ou <see cref="UnspecifiedKey"/>).
     /// </summary>
     /// <param name="playlist">Playlist déjà parsée.</param>
+    /// <param name="mediaTypeFilter">Si renseigné, seules les pistes de ce type seront regroupées (ex: uniquement les chaînes live).</param>
     /// <returns>Liste de groupes par pays.</returns>
-    public static IReadOnlyList<ChannelGroup> GroupByCountry(ParsedPlaylist playlist)
+    public static IReadOnlyList<ChannelGroup> GroupByCountry(ParsedPlaylist playlist, MediaType? mediaTypeFilter = null)
     {
-        return GroupByKey(playlist, track => track.CountryCode);
+        return GroupByKey(playlist, track => track.CountryCode, mediaTypeFilter);
     }
 
     /// <summary>
     /// Regroupe les pistes par code langue (ISO 639-1 ou <see cref="UnspecifiedKey"/>).
     /// </summary>
     /// <param name="playlist">Playlist déjà parsée.</param>
+    /// <param name="mediaTypeFilter">Si renseigné, seules les pistes de ce type seront regroupées.</param>
     /// <returns>Liste de groupes par langue.</returns>
-    public static IReadOnlyList<ChannelGroup> GroupByLanguage(ParsedPlaylist playlist)
+    public static IReadOnlyList<ChannelGroup> GroupByLanguage(ParsedPlaylist playlist, MediaType? mediaTypeFilter = null)
     {
-        return GroupByKey(playlist, track => track.LanguageCode);
+        return GroupByKey(playlist, track => track.LanguageCode, mediaTypeFilter);
     }
 
-    private static IReadOnlyList<ChannelGroup> GroupByKey(ParsedPlaylist playlist, Func<M3uTrack, string?> keySelector)
+    private static IReadOnlyList<ChannelGroup> GroupByKey(
+        ParsedPlaylist playlist,
+        Func<M3uTrack, string?> keySelector,
+        MediaType? mediaTypeFilter)
     {
         if (playlist is null)
         {
@@ -52,6 +57,11 @@ public static class ChannelGroupingService
         foreach (var track in playlist.Tracks)
         {
             if (track is null)
+            {
+                continue;
+            }
+
+            if (mediaTypeFilter.HasValue && track.MediaType != mediaTypeFilter.Value)
             {
                 continue;
             }

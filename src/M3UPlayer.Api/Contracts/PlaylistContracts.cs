@@ -6,7 +6,7 @@ namespace M3UPlayer.Api.Contracts;
 /// Réponse retournée après le chargement ou la récupération d'une playlist.
 /// </summary>
 /// <param name="PlaylistId">Identifiant généré et utilisé pour récupérer la playlist.</param>
-/// <param name="Countries">Synthèse des pays regroupés.</param>
+/// <param name="Countries">Synthèse des pays regroupés; seules les chaînes de type <c>LiveChannel</c> sont comptées.</param>
 public sealed record PlaylistSummaryResponse(string PlaylistId, IReadOnlyList<CountrySummaryDto> Countries);
 
 /// <summary>
@@ -14,7 +14,7 @@ public sealed record PlaylistSummaryResponse(string PlaylistId, IReadOnlyList<Co
 /// </summary>
 /// <param name="Code">Code pays (ou valeur <c>UNSPECIFIED</c> lorsqu'absent).</param>
 /// <param name="Language">Langue majoritaire détectée.</param>
-/// <param name="ChannelCount">Nombre de chaînes dans le groupe.</param>
+/// <param name="ChannelCount">Nombre de chaînes dans le groupe (uniquement les flux live).</param>
 public sealed record CountrySummaryDto(string Code, string? Language, int ChannelCount);
 
 /// <summary>
